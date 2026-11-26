@@ -1,41 +1,41 @@
 from textblob import TextBlob
 
+def main():
+    counts = {"Positive": 0, "Neutral": 0, "Negative": 0}
 
-positive_count = 0
-neutral_count = 0
-negative_count = 0
+    print("==========================================")
+    print("Sentiment Analysis Summarizer by Don Sison")
+    print("==========================================")
 
+    for number in range(1, 11):
+        sentence = input(f"\nEnter sentence {number}: ")
+        polarity, label = analyze_sentence(sentence)
+        counts[label] += 1
+        print(f"Polarity: {polarity:.2f}")
+        print(f"Sentiment: {label}")
+    print_summary(counts)
 
-print("========================================")
-print("       SENTIMENT ANALYSIS PROGRAM")
-print("========================================")
-
-for number in range(1, 11):
-    sentence = input(f"\nEnter sentence {number}: ")
-
-    sentiment = TextBlob(sentence)
-    polarity = sentiment.sentiment.polarity
-
-    print(f"Polarity: {polarity:.2f}")
+def analyze_sentence(sentence):
+    polarity = TextBlob(sentence).sentiment.polarity
 
     if polarity < 0:
-        print("Sentiment: Negative")
-        negative_count += 1
-
+        label = "Negative"
     elif polarity == 0:
-        print("Sentiment: Neutral")
-        neutral_count += 1
-
+        label = "Neutral"
     else:
-        print("Sentiment: Positive")
-        positive_count += 1
+        label = "Positive"
 
+    return polarity, label
 
-print("\n========================================")
-print("        SENTIMENT ANALYSIS SUMMARY")
-print("========================================")
-print(f"Positive sentences: {positive_count}")
-print(f"Neutral sentences:  {neutral_count}")
-print(f"Negative sentences: {negative_count}")
-print(f"Total sentences:    {positive_count + neutral_count + negative_count}")
-print("========================================")
+def print_summary(counts):
+    print()
+    print("==========================================")
+    print("          Results of the analysis")
+    print("==========================================")
+    print(f"Your positive sentence count is {counts['Positive']}")
+    print(f"Your neutral sentence count is {counts['Neutral']}")
+    print(f"Your negative sentence count is {counts['Negative']}")
+    print(f"Total sentences: {sum(counts.values())}")
+    print("==========================================")
+
+main()
